@@ -130,21 +130,88 @@
             z-index: 1;
             min-height: 100vh;
             display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0;
+            text-align: left;
+        }
+
+        /* Left Section - Image Carousel */
+        .left-section {
+            flex: 1;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            opacity: 0;
+            transition: all 1.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .carousel-image.active {
+            opacity: 1 !important;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .carousel-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 40px rgba(99, 102, 241, 0.4));
+            transition: all 0.5s ease;
+        }
+
+        .carousel-image.active img {
+            filter: drop-shadow(0 0 60px rgba(99, 102, 241, 0.6));
+        }
+
+        /* Right Section - Content */
+        .right-section {
+            flex: 1;
+            height: 100vh;
+            display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            text-align: center;
+            align-items: flex-start;
+            padding: 4rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         /* Logo */
         .logo {
             margin-bottom: 3rem;
             animation: logoAppear 1.5s ease-out;
+            text-align: center;
+            width: 100%;
         }
 
         .logo img {
-            width: 200px;
+            width: 180px;
             height: auto;
             filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.3));
             transition: all 0.3s ease;
@@ -387,6 +454,112 @@
             box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
         }
 
+        /* Floating Logo System */
+        .floating-logos {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .logo-side {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .left-side {
+            left: 2%;
+            width: 120px;
+        }
+
+        .right-side {
+            right: 2%;
+            width: 120px;
+        }
+
+        .floating-logo {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            opacity: 0.15;
+            transition: all 0.3s ease;
+            animation: logoFloat 20s ease-in-out infinite;
+        }
+
+        .floating-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.3));
+            transition: all 0.3s ease;
+        }
+
+        .floating-logo:hover {
+            opacity: 0.4;
+            transform: scale(1.1);
+        }
+
+        .floating-logo:hover img {
+            filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.6));
+        }
+
+        /* Individual logo animations with different timings */
+        .floating-logo:nth-child(1) { animation-delay: 0s; }
+        .floating-logo:nth-child(2) { animation-delay: -6.67s; }
+        .floating-logo:nth-child(3) { animation-delay: -13.33s; }
+
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-15px) rotate(2deg);
+            }
+            50% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            75% {
+                transform: translateY(15px) rotate(-2deg);
+            }
+        }
+
+        /* Responsive adjustments for desktop */
+        @media (min-width: 1200px) {
+            .left-side { left: 3%; }
+            .right-side { right: 3%; }
+            
+            .floating-logo {
+                width: 90px;
+                height: 90px;
+            }
+        }
+
+        @media (min-width: 1600px) {
+            .left-side { left: 4%; }
+            .right-side { right: 4%; }
+            
+            .floating-logo {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        /* Hide on mobile devices */
+        @media (max-width: 768px) {
+            .floating-logos {
+                display: none;
+            }
+        }
+
         /* Particle System */
         .particles {
             position: fixed;
@@ -425,23 +598,84 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .left-section {
+                height: 60vh;
+                padding-top: 1rem;
+            }
+            
+            .right-section {
+                height: 40vh;
+                padding: 2rem;
+                align-items: center;
+            }
+            
+            .carousel-image {
+                width: 400px;
+                height: 400px;
+                top: 52%;
+            }
+        }
+
         @media (max-width: 768px) {
             .container {
-                padding: 1rem;
+                padding: 0;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+            
+            .left-section {
+                height: 60vh;
+                order: 1;
+                position: relative;
+                overflow: visible;
+                padding-top: 2rem;
+            }
+            
+            .right-section {
+                height: 40vh;
+                order: 2;
+                padding: 2rem 1.5rem;
+                align-items: center;
+                text-align: center;
+                background: rgba(0, 0, 0, 0.5);
             }
             
             .logo img {
-                width: 150px;
+                width: 120px;
             }
             
-            .animated-elements {
-                gap: 1rem;
+            .carousel-image {
+                width: 300px;
+                height: 300px;
+                z-index: 20;
+                top: 55%;
             }
             
-            .element-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
+            .image-carousel {
+                position: relative;
+                z-index: 15;
+                padding-top: 1rem;
+            }
+            
+            .title {
+                font-size: clamp(2rem, 6vw, 2.5rem);
+                margin-bottom: 1rem;
+            }
+            
+            .tagline {
+                font-size: clamp(1rem, 4vw, 1.3rem);
+                margin-bottom: 1rem;
+            }
+            
+            .description {
+                font-size: clamp(0.9rem, 3vw, 1.1rem);
+                margin-bottom: 2rem;
             }
         }
 
@@ -510,34 +744,90 @@
         </div>
     </div>
 
+    <!-- Floating Logo Images -->
+    <div class="floating-logos">
+        <!-- Left Side Logos -->
+        <div class="logo-side left-side">
+            <div class="floating-logo" data-speed="0.8">
+                <img src="https://sanciras.github.io/game-sancira-logo.png" alt="Game Sancira Logo">
+            </div>
+            <div class="floating-logo" data-speed="1.2">
+                <img src="https://sanciras.github.io/video-sancira-logo.png" alt="Video Sancira Logo">
+            </div>
+            <div class="floating-logo" data-speed="0.6">
+                <img src="https://sanciras.github.io/chef-sancira-logo.png" alt="Chef Sancira Logo">
+            </div>
+        </div>
+        
+        <!-- Right Side Logos -->
+        <div class="logo-side right-side">
+            <div class="floating-logo" data-speed="1.0">
+                <img src="https://sanciras.github.io/image-sancira-logo.png" alt="Image Sancira Logo">
+            </div>
+            <div class="floating-logo" data-speed="0.9">
+                <img src="https://sanciras.github.io/song-sancira-logo.png" alt="Song Sancira Logo">
+            </div>
+            <div class="floating-logo" data-speed="1.1">
+                <img src="https://sanciras.github.io/invite-sancira-logo.png" alt="Invite Sancira Logo">
+            </div>
+        </div>
+    </div>
+
     <!-- Particle System -->
     <div class="particles" id="particles"></div>
 
-    <!-- Main Container -->
+        <!-- Main Container -->
     <div class="container">
-        <!-- Logo -->
-        <div class="logo">
-            <img src="https://sanciras.github.io/sanciras.png" alt="Sanciras Logo">
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <h1 class="title">Coming Soon</h1>
-            <p class="tagline">Welcome to the world of Sanciras</p>
-            <p class="description">Embark on extraordinary journeys where innovation meets adventure. Discover a realm of endless possibilities and cutting-edge experiences that redefine what's possible.</p>
-
-            <!-- Progress Bar -->
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
+        <!-- Left Side - Image Carousel -->
+        <div class="left-section">
+            <div class="image-carousel">
+                <div class="carousel-image active" data-index="0">
+                    <img src="https://sanciras.github.io/game-sancira-logo.png" alt="Game Sancira Logo">
+                </div>
+                <div class="carousel-image" data-index="1">
+                    <img src="https://sanciras.github.io/video-sancira-logo.png" alt="Video Sancira Logo">
+                </div>
+                <div class="carousel-image" data-index="2">
+                    <img src="https://sanciras.github.io/chef-sancira-logo.png" alt="Chef Sancira Logo">
+                </div>
+                <div class="carousel-image" data-index="3">
+                    <img src="https://sanciras.github.io/image-sancira-logo.png" alt="Image Sancira Logo">
+                </div>
+                <div class="carousel-image" data-index="4">
+                    <img src="https://sanciras.github.io/song-sancira-logo.png" alt="Song Sancira Logo">
+                </div>
+                <div class="carousel-image" data-index="5">
+                    <img src="https://sanciras.github.io/invite-sancira-logo.png" alt="Invite Sancira Logo">
                 </div>
             </div>
+        </div>
 
-            <!-- Loading Dots -->
-            <div class="loading-dots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+        <!-- Right Side - Content -->
+        <div class="right-section">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="https://sanciras.github.io/sanciras.png" alt="Sanciras Logo">
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <h1 class="title">Launching Soon</h1>
+                <p class="tagline">Welcome to the world of Sanciras</p>
+                <p class="description">Embark on extraordinary journeys where innovation meets adventure. Discover a realm of endless possibilities and cutting-edge experiences that redefine what's possible.</p>
+                
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Loading Dots -->
+                <div class="loading-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -601,12 +891,61 @@
             });
         }
 
+        // Image Carousel Functionality
+        function initImageCarousel() {
+            const images = document.querySelectorAll('.carousel-image');
+            let currentIndex = 0;
+            const totalImages = images.length;
+            
+            console.log('Carousel initialized with', totalImages, 'images');
+            
+            function showNextImage() {
+                // Hide current image
+                images[currentIndex].classList.remove('active');
+                
+                // Move to next image
+                currentIndex = (currentIndex + 1) % totalImages;
+                
+                // Show new image
+                images[currentIndex].classList.add('active');
+                
+                console.log('Showing image', currentIndex);
+            }
+            
+            // Auto-advance every 4 seconds
+            setInterval(showNextImage, 4000);
+            
+            // Initialize first image
+            images[0].classList.add('active');
+            
+            // Debug: Check if images are visible
+            setTimeout(() => {
+                images.forEach((img, index) => {
+                    const isVisible = img.classList.contains('active');
+                    console.log(`Image ${index}: visible = ${isVisible}, opacity = ${img.style.opacity}`);
+                });
+            }, 1000);
+        }
+
 
 
         // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
             initLogoInteraction();
+            initImageCarousel();
+            
+            // Debug: Check if images are loaded
+            setTimeout(() => {
+                const carouselImages = document.querySelectorAll('.carousel-image img');
+                carouselImages.forEach((img, index) => {
+                    console.log(`Image ${index}:`, img.src, 'loaded =', img.complete);
+                    if (!img.complete) {
+                        img.addEventListener('load', () => console.log(`Image ${index} loaded successfully`));
+                        img.addEventListener('error', () => console.log(`Image ${index} failed to load`));
+                    }
+                });
+            }, 500);
             
             // Add scroll event listeners
             window.addEventListener('scroll', () => {
@@ -633,6 +972,17 @@
                 const moveX = (mouseX - 0.5) * (20 + index * 5);
                 const moveY = (mouseY - 0.5) * (20 + index * 5);
                 shape.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+
+            // Parallax effect for floating logos
+            const floatingLogos = document.querySelectorAll('.floating-logo');
+            floatingLogos.forEach((logo, index) => {
+                const speed = parseFloat(logo.dataset.speed) || 1;
+                const moveX = (mouseX - 0.5) * (15 * speed);
+                const moveY = (mouseY - 0.5) * (10 * speed);
+                
+                // Apply smooth parallax movement
+                logo.style.transform = `translate(${moveX}px, ${moveY}px)`;
             });
         });
 
